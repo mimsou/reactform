@@ -1,7 +1,7 @@
 import React from "react";
 import "./form.css";
 
-export default function Form() {
+export default function Form(props) {
   const steps = ["enter a task", "click on button"];
   const addTask = "add Task";
   return (
@@ -12,7 +12,7 @@ export default function Form() {
         ))}
       </ul>
       <input className="input" />
-      <button>addTask</button>
-    </div>
+      <button onClick={()=>props.sayHello()}>addTask</button>
+    </div> 
   );
 }

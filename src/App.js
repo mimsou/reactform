@@ -8,6 +8,10 @@ import TasksList from "./components/TasksList/TasksList";
 
 function App() {
 
+  const sayHello = () => {
+     console.log("hello")
+  }
+
   const [tasks, settasks] = useState([
     {title:"learn javascript",duration:50,type:"IT",date:"2020-01-02"},
     {title:"learn javascript",duration:50,type:"IT",date:"2020-01-02"},
@@ -16,8 +20,8 @@ function App() {
 
   return (
     <div className="App">
-      <Form />
-      <TasksList tasks={tasks} />
+      <Form sayHello={sayHello} />
+      <TasksList  tasks={tasks} />
     </div>
   );
 }
