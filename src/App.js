@@ -4,24 +4,20 @@ import Hello from "./components/Hello/Hello";
 import Form from "./components/Form/Form";
 import React, { useState } from "react";
 import Task from "./components/Task/Task";
+import TasksList from "./components/TasksList/TasksList";
 
 function App() {
-  const [lines, setlines] = useState([
-    "learn javascript",
-    "learn html",
-    "learn css",
-  ]);
 
-  const getLine = () => {
-    return lines.map((l) => {
-      return <Task task={l} />;
-    });
-  };
+  const [tasks, settasks] = useState([
+    {title:"learn javascript",duration:50,type:"IT",date:"2020-01-02"},
+    {title:"learn javascript",duration:50,type:"IT",date:"2020-01-02"},
+    {title:"learn javascript",duration:50}
+  ]);
 
   return (
     <div className="App">
       <Form />
-      {getLine()}
+      <TasksList tasks={tasks} />
     </div>
   );
 }
