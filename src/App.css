@@ -11,6 +11,13 @@
   }
 }
 
+.centered {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
