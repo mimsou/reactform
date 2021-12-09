@@ -2,12 +2,17 @@ import logo from "./logo.svg";
 import "./App.css";
 import Hello from "./components/Hello/Hello";
 import Form from "./components/Form/Form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Task from "./components/Task/Task";
 import TasksList from "./components/TasksList/TasksList";
+import { fetchTasks } from "./services/task.service";
 
 function App() {
    
+
+  useEffect(() => {
+   fetchData()
+  }, [])
   
 
   const addTask = (t) => {
@@ -27,28 +32,17 @@ function App() {
   const [ToggleVisibility, setToggleVisibility] = useState(true);
   const [Mode, setMode] = useState("a")
   const [UpdateValue, setUpdateValue] = useState("")
-  const [tasks, settasks] = useState([
-    {
-      id: 1,
-      title: "learn javascript",
-      duration: 50,
-      type: "IT",
-      date: "2020-01-02",
-    },
-    {
-      id: 2,
-      title: "learn javascript",
-      duration: 50,
-      type: "IT",
-      date: "2020-01-02",
-    },
-    { id: 3, title: "learn javascript", duration: 50 },
-  ]);
+  const [tasks, settasks] = useState([]);
 
   function deleteRow(arr, row) {
     arr = arr.slice(0); // make copy
     arr.splice(row - 1, 1);
     return arr;
+ }
+
+ const fetchData = async ()=>{
+      const tasks = await fetchTasks();
+      settasks(tasks)
  }
 
 
