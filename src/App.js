@@ -63,11 +63,20 @@ function App() {
     settasks(deleteRow(tasksCopy,i));
   };
 
-  const handelUpdate = (t) => {
-    setMode("u");
+  const handelUpdate = (t,val) => {
+    const id=t.id;
     let tasksCopy = [...tasks];
-    const i = tasksCopy.indexOf(t);
-    setUpdateValue({index:i,value:t})
+   
+    let taskv = tasksCopy.map((obj)=>{
+    
+       if(obj.id === id){
+        console.log(val.title)
+         return {...obj,title:val.title,duration:val.duration}
+       }
+       return obj
+    })
+    console.log(taskv)
+    settasks(taskv);
   };
 
   return (
@@ -77,7 +86,7 @@ function App() {
       {ToggleVisibility && (
         <TasksList
           handelDelete={(t) => handelDelete(t)}
-          handelUpdate={(t) => handelUpdate(t)}
+          handelUpdate={(val , t) => handelUpdate(val,t)}
           tasks={tasks}
         />
       )}

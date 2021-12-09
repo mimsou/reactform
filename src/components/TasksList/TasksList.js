@@ -12,7 +12,7 @@ export default function TasksList(props) {
             type={t.type}
             date={t.date}
             handelDelete={()=>props.handelDelete(t)}
-            handelUpdate={()=>props.handelUpdate(t)} 
+            handelUpdate={(updateValue)=>props.handelUpdate(t,updateValue)} 
           >
             <p>Hello this is props child</p>
 
