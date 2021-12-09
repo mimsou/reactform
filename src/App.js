@@ -57,10 +57,9 @@ function App() {
   };
 
   const handelDelete = (t) => {
-    let tasksCopy = [...tasks];
-    const i = tasksCopy.indexOf(t);
-    deleteRow(tasksCopy, i);
-    settasks(deleteRow(tasksCopy, i));
+  
+    const tasksCopy =  tasks.filter(obj => obj.id !== t.id)
+    settasks(tasksCopy)
   };
 
   const handelUpdate = (t, val) => {
