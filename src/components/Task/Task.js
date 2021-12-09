@@ -9,7 +9,7 @@ export default function Task(props) {
   const handelChange = (e) => {
     e.preventDefault()
     props.handelUpdate({title:TitleUpdate,duration:DurationUpdate})
-    setIsUpdateMode(false)
+    setIsUpdateMode(false) 
   }
 
   return (
@@ -72,8 +72,8 @@ export default function Task(props) {
             }}
           >
             <form onSubmit={(e)=>handelChange(e)}>
-           <input onChange={(e)=>setTitleUpdate(e.target.value)} />
-           <input onChange={(e)=>setDurationUpdate(e.target.value)} />
+           <input placeholder="Title" onChange={(e)=>setTitleUpdate(e.target.value)} />
+           <input placeholder="Duration" onChange={(e)=>setDurationUpdate(e.target.value)} />
            <button>Update</button>
            </form>
           </div>

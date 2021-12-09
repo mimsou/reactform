@@ -5,15 +5,33 @@ import Form from "./components/Form/Form";
 import React, { useEffect, useState } from "react";
 import Task from "./components/Task/Task";
 import TasksList from "./components/TasksList/TasksList";
-import { fetchTasks } from "./services/task.service";
-import wait from "./assets/wait.gif"  ;
+import {
+  fetchTasks,
+  addTask as addTasks,
+  deleteTask as deleteTasks,
+  updateTask as updateTasks,
+  updateTask,
+  deleteTask,
+} from "./services/task.service";
+import wait from "./assets/wait.gif";
 
 function App() {
   useEffect(() => {
     fetchData();
   }, []);
 
-  const addTask = (t) => {
+  const addTask = async (t) => {
+
+    setLoading(true);
+
+    try {
+      await addTasks(t);
+      setLoading(false);
+    } catch (e) {
+      setErrors(true);
+      setLoading(false);
+    }
+
     let tasksCopy = [...tasks];
     tasksCopy.push({
       id: tasksCopy.length + 1,
@@ -30,13 +48,9 @@ function App() {
   const [UpdateValue, setUpdateValue] = useState("");
   const [tasks, settasks] = useState([]);
   const [Loading, setLoading] = useState(false);
-  const [Errors, setErrors] = useState("")
+  const [Errors, setErrors] = useState("");
 
-  function deleteRow(arr, row) {
-    arr = arr.slice(0); // make copy
-    arr.splice(row, row + 1);
-    return arr;
-  }
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -45,25 +59,45 @@ function App() {
       settasks(tasks);
       setLoading(false);
     } catch (e) {
-      console.log("error")
-      setErrors(e)
+      console.log("error");
+      setErrors(e);
       setLoading(false);
     }
-    
   };
 
   const toggelTask = () => {
     setToggleVisibility(!ToggleVisibility);
   };
 
-  const handelDelete = (t) => {
-  
-    const tasksCopy =  tasks.filter(obj => obj.id !== t.id)
-    settasks(tasksCopy)
+  const handelDelete = async (t) => {
+    setLoading(true);
+    const id = t.id;
+
+    try {
+      await deleteTasks(id);
+      setLoading(false);
+    } catch (e) {
+      setErrors(true);
+      setLoading(false);
+    }
+    const tasksCopy = tasks.filter((obj) => obj.id !== t.id);
+    settasks(tasksCopy);
   };
 
-  const handelUpdate = (t, val) => {
+  const handelUpdate = async (t, val) => {
+
+    setLoading(true);
     const id = t.id;
+
+    try {
+      await updateTask(id,val);
+      setLoading(false);
+    } catch (e) {
+      setErrors(true);
+      setLoading(false);
+    }
+
+  
     let tasksCopy = [...tasks];
 
     let taskv = tasksCopy.map((obj) => {
@@ -77,30 +111,32 @@ function App() {
     settasks(taskv);
   };
 
-  const getErrors = () =>{
-    let error = Errors.toString()
+  const getErrors = () => {
+    let error = Errors.toString();
     return error;
-  }
+  };
 
   return (
     <div className="App">
       <button onClick={toggelTask}>Task visibility</button>
       <Form addTask={addTask} mode={Mode} val={UpdateValue} />
-      
-      {ToggleVisibility && (
-        !Loading ? (
-         !Errors ?  (
-          <TasksList
-            handelDelete={(t) => handelDelete(t)}
-            handelUpdate={(val, t) => handelUpdate(val, t)}
-            tasks={tasks}
-          />
-          ) : <div style={{color:"red"}}>{ getErrors() }</div>
-        ): 
-         (<>
-            <img   className="centered" style={{margin:"auto"}}  src={wait  } />
-        </>) )
-        }
+
+      {ToggleVisibility &&
+        (!Loading ? (
+          !Errors ? (
+            <TasksList
+              handelDelete={(t) => handelDelete(t)}
+              handelUpdate={(val, t) => handelUpdate(val, t)}
+              tasks={tasks}
+            />
+          ) : (
+            <div style={{ color: "red" }}>{getErrors()}</div>
+          )
+        ) : (
+          <>
+            <img className="centered" style={{ margin: "auto" }} src={wait} />
+          </>
+        ))}
     </div>
   );
 }

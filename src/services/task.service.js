@@ -38,8 +38,8 @@ export const fetchTaskById = (id) => {
   return task
 }
 
-export const addTask = (task) => {
-  // await delay(1000)
+export const addTask = async (task) => {
+   await delay(1000)
   const newTask = {
     id: tasks.length + 1,
     title: task.title,
@@ -50,13 +50,13 @@ export const addTask = (task) => {
   return newTask
 }
 
-export const deleteTask = (id) => {
-  // await delay(1000)
+export const deleteTask = async (id) => {
+   await delay(1000)
   tasks = tasks.filter((task) => task.id !== id)
 }
 
-export const updateTask = (id, task) => {
-  // await delay(1000)
+export const updateTask = async (id, task) => {
+    await delay(1000)
   const updatedTask = { id, title: task.title, duration: task.duration }
   tasks = tasks.map((task) => (task.id === id ? updatedTask : task))
   return updatedTask
